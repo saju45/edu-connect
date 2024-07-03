@@ -1,12 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 import { MobileNav } from "@/components/mobile-nav";
-import lwsLogo from "@/assets/lws_logo.svg";
-import Image from "next/image";
 import { X } from "lucide-react";
 import { Command } from "lucide-react";
 import { Button, buttonVariants } from "./ui/button";
@@ -19,9 +17,19 @@ import {
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Logo } from "./logo";
+import { signOut, useSession } from "next-auth/react";
 export function MainNav({ items, children }) {
 	const [showMobileMenu, setShowMobileMenu] = useState(false);
+	const [loginSession,setLoginSession]=useState(null);
+	const {data:session}=useSession();
 
+
+	console.log("Session : ",session);
+	useEffect(()=>{
+
+		setLoginSession(session)
+
+	},[session])
 	return (
 		<>
 			<div className="flex gap-6 lg:gap-10">
@@ -48,7 +56,10 @@ export function MainNav({ items, children }) {
 				)}
 			</div>
 			<nav className="flex items-center gap-3">
-				<div className="items-center gap-3 hidden lg:flex">
+			
+			{
+				!loginSession &&(
+<div className="items-center gap-3 hidden lg:flex">
 					<Link
 						href="/login"
 						className={cn(buttonVariants({ size: "sm" }), "px-4")}>
@@ -62,14 +73,17 @@ export function MainNav({ items, children }) {
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end" className="w-56 mt-4">
 							<DropdownMenuItem className="cursor-pointer">
-								<Link href="">Student</Link>
+								<Link href="/register/student">Student</Link>
 							</DropdownMenuItem>
 							<DropdownMenuItem className="cursor-pointer">
-								<Link href="">Instructor</Link>
+								<Link href="/register/instructor">Instructor</Link>
 							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</div>
+				)
+			}
+				
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
 						<div className="cursor-pointer">
@@ -93,7 +107,7 @@ export function MainNav({ items, children }) {
 							<Link href="">Testimonials & Certificates</Link>
 						</DropdownMenuItem>
 						<DropdownMenuItem className="cursor-pointer" asChild>
-							<Link href="">Logout</Link>
+							<Link href="#" onClick={()=>signOut()}>Logout</Link>
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
