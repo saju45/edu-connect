@@ -30,6 +30,16 @@ export const POST=async(request,response)=>{
     console.log(newUser);
 
     try {
+
+        // const findUser=User.findOne({email:email}).lean();
+
+        // if(findUser){
+        //     console.log("user already exits");
+        //     return new NextResponse("user already exits",{
+        //         status:500
+        //     }) 
+        // }
+        
         await User.create(newUser);
         return new NextResponse("user has been created successfully",{
             status:201

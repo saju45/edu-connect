@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials"
 
 import { User } from "./model/user-model";
 import bcryptjs from "bcryptjs";
-
+import { authConfig } from "./auth.config";
 export const{
     handlers:{GET,POST},
     auth,
@@ -11,9 +11,7 @@ export const{
     signOut
 }
 =NextAuth({
-session:{
-    strategy:'jwt'
-},
+    ...authConfig,
 providers:[
     CredentialsProvider({
         async authorize(credentials){
