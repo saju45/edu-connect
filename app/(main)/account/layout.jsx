@@ -10,7 +10,7 @@ import Menu from "./component/account-menu";
 function Layout({ tabs }) {
 	return (
 		<section className="relative pb-16">
-			{/*end container*/}
+			{/*start container*/}
 			<div className="container relative mt-10">
 				<div className="lg:flex">
 					<div className="lg:w-1/4 md:px-3">
