@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import {  buttonVariants } from "@/components/ui/button";
+import EnrollCourse from "@/components/enroll-course";
 
 function CourseDetailsIntro({title,subtitle,thumbnail}){
 
@@ -22,9 +23,7 @@ function CourseDetailsIntro({title,subtitle,thumbnail}){
                 </p>
 
                 <div className="mt-6 flex items-center justify-center flex-wrap gap-3">
-                  <Link href="" className={cn(buttonVariants({ size: "lg" }))}>
-                    Enroll Now
-                  </Link>
+                 <EnrollCourse asLink={false}/>
                   <Link
                     href=""
                     className={cn(

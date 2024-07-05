@@ -3,6 +3,7 @@ import { formatPrice } from "@/lib/formatPrice";
 import { ArrowRight, BookOpen } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import EnrollCourse from "@/components/enroll-course";
 
 function CourseCard({course}){
 
@@ -42,13 +43,7 @@ function CourseCard({course}){
                 {formatPrice(course?.price)}
               </p>
 
-              <Button
-                variant="ghost"
-                className="text-xs text-sky-700 h-7 gap-1"
-              >
-                Enroll
-                <ArrowRight className="w-3" />
-              </Button>
+             <EnrollCourse asLink={true}/>
             </div>
           </div>
         </div>
