@@ -18,12 +18,12 @@ const SingleCoursePage = async ({params:{id}}) => {
   return (
     <>
     
-    <CourseDetailsIntro title={course?.title} subtitle={course?.subtitle} thumbnail={course?.thumbnail}/>
+    <CourseDetailsIntro course={course} />
    <CourseDetails course={course}/>
       {/* Testimonials */}
     {course?.testimonials && <Testimonials testimonials={replaceMongoIdInArray(course?.testimonials)}/> }
       {/* Releated Course */}
-     <RelatedCourses/>
+     {/* <RelatedCourses/> */}
       {/* Authors */}
       {/* https://avatars.githubusercontent.com/u/1416832?v=4 */}
       {/* https://avatars.githubusercontent.com/u/3633137?v=4 */}

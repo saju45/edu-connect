@@ -36,8 +36,8 @@ return(
                       <div className="flex items-center gap-4">
                         <Image
                           alt={testimonial?.user?.first_name}
-                          src={testimonial?.user?.profile_picture}
-                          width="56"
+                          src={testimonial?.user?.profilePicture}
+                          width="56"s
                           height="56"
                           className="size-14 rounded-full object-cover"
                         />

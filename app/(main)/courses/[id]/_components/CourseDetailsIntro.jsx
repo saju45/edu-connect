@@ -4,7 +4,9 @@ import { cn } from "@/lib/utils";
 import {  buttonVariants } from "@/components/ui/button";
 import EnrollCourse from "@/components/enroll-course";
 
-function CourseDetailsIntro({title,subtitle,thumbnail}){
+function CourseDetailsIntro({course}){
+
+  const {title,subtitle,thumbnail}=course;
 
     return (
         <div className="overflow-x-hidden  grainy">
@@ -23,7 +25,7 @@ function CourseDetailsIntro({title,subtitle,thumbnail}){
                 </p>
 
                 <div className="mt-6 flex items-center justify-center flex-wrap gap-3">
-                 <EnrollCourse asLink={false}/>
+                 <EnrollCourse asLink={false} course={course}/>
                   <Link
                     href=""
                     className={cn(
