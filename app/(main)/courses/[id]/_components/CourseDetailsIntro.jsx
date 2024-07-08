@@ -25,8 +25,8 @@ function CourseDetailsIntro({course}){
                 </p>
 
                 <div className="mt-6 flex items-center justify-center flex-wrap gap-3">
-                 <EnrollCourse asLink={false} course={course}/>
-                  <Link
+                 <EnrollCourse asLink={false} courseId={course?.id}/>
+                  <Link 
                     href=""
                     className={cn(
                       buttonVariants({ variant: "outline", size: "lg" })

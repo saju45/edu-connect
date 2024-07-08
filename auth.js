@@ -66,6 +66,7 @@ providers:[
 
                 if (user) {
                     const isMatch=  bcryptjs.compare(user?.password,credentials?.password);
+                    console.log("isMatch : ",isMatch);
                     if(isMatch){
                         return user
                     }else{

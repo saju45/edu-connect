@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { createCheckoutSession } from "@/app/actions/stripe";
 
 
-function EnrollCourse({asLink,course}){
+function EnrollCourse({asLink,courseId}){
 
   // console.log("EnrlCourse : ",course);
   async function formAction(formData){
@@ -18,11 +18,8 @@ function EnrollCourse({asLink,course}){
     return (
         <>
         <form action={formAction}>
-          <input type="hidden" name="courseId" value={course?.id} />
-          <input type="hidden" name="courseName" value={course?.title} />
-          <input type="hidden" name="coursePrice" value={course?.price} />
-
-         {asLink?(
+          <input type="hidden" name="courseId" value={courseId} />
+           {asLink?(
           <Button
           type="submit"
           variant="ghost"
