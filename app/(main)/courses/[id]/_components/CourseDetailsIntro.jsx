@@ -3,11 +3,22 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import {  buttonVariants } from "@/components/ui/button";
 import EnrollCourse from "@/components/enroll-course";
+import { auth } from "@/auth";
+import { getUserByEmail } from "@/queries/users";
+import { hasEnrollMentForCourse } from "@/queries/enrollments";
+import { redirect } from "next/navigation";
 
-function CourseDetailsIntro({course}){
+async function CourseDetailsIntro({course}){
 
   const {title,subtitle,thumbnail}=course;
 
+  const session=await auth();
+
+  if(!session?.user?.email) redirect("/login");
+  const loggedInUser=await getUserByEmail(session?.user?.email);
+
+  const hasEnrollment=await hasEnrollMentForCourse(course?.id,loggedInUser?.id);
+  console.log("hashEnrollment : ",hasEnrollment);
     return (
         <div className="overflow-x-hidden  grainy">
         <section className="pt-12  sm:pt-16">
@@ -25,7 +36,16 @@ function CourseDetailsIntro({course}){
                 </p>
 
                 <div className="mt-6 flex items-center justify-center flex-wrap gap-3">
-                 <EnrollCourse asLink={false} courseId={course?.id}/>
+                  {
+                    hasEnrollment?(
+                      <Link href="" className={cn(buttonVariants({ size: "lg" }))}>
+                      Access Course
+                    </Link>
+                    ):(
+                      <EnrollCourse asLink={false} courseId={course?.id}/>
+
+                    )
+                  }
                   <Link 
                     href=""
                     className={cn(
