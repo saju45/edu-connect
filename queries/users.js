@@ -3,7 +3,7 @@ import { User } from "@/model/user-model";
 import bcrypt from "bcryptjs"
 export async function getUserByEmail(email) {
     console.log("getUserByEmail email : ",email);
-    const user = await User.findOne({ email: email }).lean();
+    const user = await User.findOne({ email: email }).select("-password").lean();
     console.log("usere : ",user);
     return replaceMongoIdInObject(user);
 }

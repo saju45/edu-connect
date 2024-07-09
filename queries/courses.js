@@ -1,11 +1,4 @@
-// import { Course } from "@/model/course-model";
 
-// export async function getCourses(){
-
-//     const courses=await Course.find({});
-
-//     return courses;
-// }
 
 
 import { replaceMongoIdInArray, replaceMongoIdInObject } from "@/lib/convertData";
@@ -18,6 +11,8 @@ import { User } from "@/model/user-model";
 import { dbConnect } from "@/service/mongo";
 import { getEnrollmentsForCourse } from "./enrollments";
 import { getTestimonialsForCourse } from "./testimonials";
+import { Object } from "core-js";
+
 
 export async function getCourseList() {
 
@@ -73,6 +68,15 @@ export async function getCourseDetailsByInstructor(instructorId){
         })
     );
 
+
+    const groupedByCourses = Object.groupBy(enrollments.flat(), ({ course }) => course);
+  
+
+    const totalRevenue = courses.reduce((acc, course) => {
+        return (acc + groupedByCourses[course._id].length * course.price)
+    }, 0);
+
+
     const totalEnrollments = enrollments.reduce(function (acc, obj) {
         return acc + obj.length;
     }, 0)
@@ -93,7 +97,8 @@ export async function getCourseDetailsByInstructor(instructorId){
         "courses":courses.length,
         "enrollments":totalEnrollments,
         "reviews":totalTestimonials.length,
-        "rating":avgRating.toPrecision(2)
+        "rating":avgRating.toPrecision(2),
+        "revenue":totalRevenue
 
     }
 
