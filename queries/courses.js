@@ -57,7 +57,7 @@ export async function getCourseDeatails(id){
 }
 
 
-export async function getCourseDetailsByInstructor(instructorId){
+export async function getCourseDetailsByInstructor(instructorId,expand){
 
     const courses=await Course.find({instructor:instructorId}).lean();
 
@@ -93,7 +93,19 @@ export async function getCourseDetailsByInstructor(instructorId){
             return acc + obj.rating;
         }, 0)) / totalTestimonials.length;
 
-    return {
+   
+   
+        if(expand){
+
+            return {
+                "courses":courses?.flat(),
+                "enrollments":enrollments?.flat(),
+                "reviews":totalTestimonials,
+        
+            }
+        }
+        
+        return {
         "courses":courses.length,
         "enrollments":totalEnrollments,
         "reviews":totalTestimonials.length,

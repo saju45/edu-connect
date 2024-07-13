@@ -1,10 +1,18 @@
 import { Category } from "@/model/category-model";
 import { replaceMongoIdInArray, replaceMongoIdInObject } from "@/lib/convertData";
+import { dbConnect } from "@/service/mongo";
 
 export async function getCategories(){
+   
+    await dbConnect();
 
-    const categories=await Category.find({}).lean();
-    return replaceMongoIdInArray(categories);
+    try {
+        const categories=await Category.find({}).lean();
+        return replaceMongoIdInArray(categories);
+    } catch (error) {
+        console.log(error);
+    }
+
 }
 
 

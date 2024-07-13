@@ -10,9 +10,13 @@ formatPrice;
 const DashboardPage = async () => {
 
   const session=await auth();
+
+  console.log("DashboardPage session : ",session);
+
   if(!session?.user) redirect("/login");
 
   const instructor=await getUserByEmail(session?.user?.email);
+  console.log("DashBoardPage ,Instructor : ",instructor);
   if (instructor?.role!=="instructor") redirect("/login");
   const courseStats =await getCourseDetailsByInstructor(instructor?.id)
 

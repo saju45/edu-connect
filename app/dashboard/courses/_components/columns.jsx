@@ -14,6 +14,9 @@ import { Star } from "lucide-react";
 import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react";
 import Link from "next/link";
 
+
+import { formatPrice } from "@/lib/formatPrice";
+
 export const columns = [
   {
     accessorKey: "title",
@@ -41,16 +44,13 @@ export const columns = [
       );
     },
     cell: ({ row }) => {
-      const price = parseFloat(row.getValue("price") || "0");
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(price);
+      const price = row.getValue("price") ;
+      const formatted = formatPrice(price);
       return <div>{formatted}</div>;
     },
   },
   {
-    accessorKey: "isPublished",
+    accessorKey: "active",
     header: ({ column }) => {
       return (
         <Button
@@ -62,11 +62,11 @@ export const columns = [
       );
     },
     cell: ({ row }) => {
-      const isPublished = row.getValue("isPublished") || false;
+      const active = row.getValue("active") || false;
 
       return (
-        <Badge className={cn("bg-gray-500", isPublished && "bg-success")}>
-          {isPublished ? "Published" : "Unpublished"}
+        <Badge className={cn("bg-gray-500", active && "bg-success")}>
+          {active ? "Published" : "Unpublished"}
         </Badge>
       );
     },
@@ -74,7 +74,10 @@ export const columns = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const { id } = row.original;
+      const  id  = row.original._id;
+
+      console.log("row ",row);
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -99,7 +102,7 @@ export const columns = [
             <Link href={`/dashboard/courses/${id}/reviews`}>
               <DropdownMenuItem className="cursor-pointer">
                 <Star className="h-4 w-4 mr-2 fill-primary" />
-                View Reviews
+                View Reviwes
               </DropdownMenuItem>
             </Link>
           </DropdownMenuContent>

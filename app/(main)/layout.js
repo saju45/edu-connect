@@ -1,5 +1,6 @@
 import { MainNav } from "@/components/main-nav";
 import { SiteFooter } from "@/components/site-footer";
+import { dbConnect } from "@/service/mongo";
 import {SessionProvider} from "next-auth/react"
 const navLinks = [
   {
@@ -19,7 +20,10 @@ const navLinks = [
     href: "/docs",
   },
 ];
-const MainLayout = ({ children }) => {
+const MainLayout =async ({ children }) => {
+  
+  await dbConnect();
+
   return (
     <div className="flex min-h-screen flex-col">
       <header className="z-40 bg-background/60 backdrop-blur-md fixed top-0 left-0 right-0 border-b ">
