@@ -6,11 +6,11 @@ const moduleSchema = new Schema({
     type: String,
   },
   description: {
-    required: true,
     type: String,
   },
-  status: {
+  active: {
     required: true,
+    default:false,
     type: String,
   },
   slug: {
@@ -19,12 +19,16 @@ const moduleSchema = new Schema({
   },
   course: {
     required: true,
-    type: String,
+    type: Schema.ObjectId,
   },
   lessonIds: {
     required: true,
-    type: [String],
+    type: [ Schema.ObjectId],
   },
+  order:{
+    required:true,
+    type:Number
+  }
 });
 
 export const Module = mongoose.models.Module ?? mongoose.model("Module", moduleSchema);

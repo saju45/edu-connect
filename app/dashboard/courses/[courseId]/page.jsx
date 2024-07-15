@@ -16,6 +16,7 @@ import AlertBanner from "@/components/alert-banner";
 import { QuizSetForm } from "./_components/quiz-set-form";
 import { getCourseDeatails } from "@/queries/courses";
 import { getCategories } from "@/queries/categories";
+import { replaceMongoIdInArray } from "@/lib/convertData";
 
 const EditCourse =async ({params:{courseId}}) => {
 
@@ -23,7 +24,6 @@ const EditCourse =async ({params:{courseId}}) => {
   const categories=await getCategories();
 
 
-  console.log("course : ",course);
 
   const mappedCategories= categories.map((category)=>{
     return{
@@ -32,7 +32,8 @@ const EditCourse =async ({params:{courseId}}) => {
       id:category?.id
     }
   })
-  console.log("categories : ",mappedCategories);
+
+  const modules=replaceMongoIdInArray(course?.modules).sort((a,b)=>a.order-b.order);
 
   return (
     <>
@@ -69,7 +70,7 @@ const EditCourse =async ({params:{courseId}}) => {
                 <h2 className="text-xl">Course Modules</h2>
               </div>
 
-              <ModulesForm initialData={[]} courseId={[]} />
+              <ModulesForm initialData={modules} courseId={courseId} />
             </div>
             <div>
               <div className="flex items-center gap-x-2">
