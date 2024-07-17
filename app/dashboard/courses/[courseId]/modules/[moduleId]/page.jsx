@@ -19,11 +19,8 @@ const Module = async ({ params:{courseId,moduleId} }) => {
 
   const modul=await getModule(moduleId);
 
-
   const lessons = replaceMongoIdInArray(modul?.lessonIds).sort((a, b ) => a.order - b.order);
 
-  console.log("lessons : ",lessons);
-  console.log("modules : ",modul);
 
   return (
     <>
@@ -61,7 +58,7 @@ const Module = async ({ params:{courseId,moduleId} }) => {
                 <IconBadge icon={BookOpenCheck} />
                 <h2 className="text-xl">Module Lessons</h2>
               </div>
-              <LessonForm initialData={lessons} moduleId={moduleId} />
+              <LessonForm initialData={lessons} moduleId={moduleId} courseId={courseId} />
             </div>
           </div>
           <div>
