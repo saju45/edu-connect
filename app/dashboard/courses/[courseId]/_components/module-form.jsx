@@ -57,7 +57,6 @@ export const ModulesForm = ({ initialData, courseId }) => {
     try {
 
       const formData=new FormData();
-      console.log("values : ",values);
       formData.append("title",values?.title);
       formData.append("slug",getSlug(values?.title));
       formData.append("courseId",courseId);
@@ -65,9 +64,6 @@ export const ModulesForm = ({ initialData, courseId }) => {
 
 
       const modul=await createModule(formData);
-
-
-      console.log("modul : ",modul);
 
       setModules((modules) => [
         ...modules,
@@ -99,7 +95,7 @@ export const ModulesForm = ({ initialData, courseId }) => {
   };
 
   const onEdit = (id) => {
-    router.push(`/dashboard/courses/1/modules/${1}`);
+    router.push(`/dashboard/courses/${courseId}/modules/${id}`);
   };
 
   return (

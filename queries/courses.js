@@ -73,7 +73,8 @@ export async function getCourseDetailsByInstructor(instructorId,expand){
   
 
     const totalRevenue = publishedCourses.reduce((acc, course) => {
-        return (acc + groupedByCourses[course._id].length * course.price)
+        const quantity=groupedByCourses[course._id]?groupedByCourses[course._id].length:0
+        return (acc + quantity * course.price)
     }, 0);
 
 
