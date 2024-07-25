@@ -4,6 +4,7 @@
 import { Lesson } from "@/model/lesson.model";
 import { Module } from "@/model/module.model";
 import { create } from "@/queries/lessons";
+import mongoose from "mongoose";
 
 export async function createLesson(data) {
   try {
@@ -46,3 +47,30 @@ export async function updateLesson(lessonId, data) {
     throw new Error(err);
   }
 }
+
+export async function changeLessonPublishedState(lessonId){
+
+  try {
+    const lesson=await Lesson.findById(lessonId).lean();
+    const res=await Lesson.findByIdAndUpdate(lessonId,{active:!lesson?.active},{lean:true});
+
+    return res.active;
+
+  } catch (error) {
+   
+    throw new Error(error);
+  }
+}
+
+
+export async function deleteLesson(lessonId, moduleId) {
+  try {
+    const modul = await Module.findById(moduleId);
+    modul.lessonIds.pull(new mongoose.Types.ObjectId(lessonId));
+    await Lesson.findByIdAndDelete(lessonId);
+    modul.save();
+  } catch (err) {
+    throw new Error(err);
+  }
+}
+

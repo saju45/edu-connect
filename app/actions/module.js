@@ -3,6 +3,7 @@
 import { create } from "@/queries/modules"
 import { Course } from "@/model/course-model"
 import { Module } from "@/model/module.model";
+import mongoose from "mongoose";
 
 
 export async function createModule(data){
@@ -61,3 +62,32 @@ export async function updateModule(moduleId, data) {
         throw new Error(err);
     }
 }
+
+
+export async function changeModulePublishedState(moduleId){
+
+
+    try {
+        const modul=await Module.findById(moduleId).lean();
+        const res=await Module.findByIdAndUpdate(moduleId,{active:!modul?.active},{lean:true});
+    
+        return res.active;
+    
+      } catch (error) {
+       
+        throw new Error(error);
+      }
+
+}
+
+
+export async function deleteModule(moduleId, courseId) {
+    try {
+      const course = await Course.findById(courseId);
+      course.modules.pull(new mongoose.Types.ObjectId(moduleId));
+      await Module.findByIdAndDelete(moduleId);
+       course.save();
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
