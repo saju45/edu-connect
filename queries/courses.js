@@ -12,6 +12,7 @@ import { dbConnect } from "@/service/mongo";
 import { getEnrollmentsForCourse } from "./enrollments";
 import { getTestimonialsForCourse } from "./testimonials";
 import { Object } from "core-js";
+import { Lesson } from "@/model/lesson.model";
 
 
 export async function getCourseList() {
@@ -50,7 +51,11 @@ export async function getCourseDeatails(id){
         }
     }).populate({
         path:"modules",
-        model:Module
+        model:Module,
+        populate:{
+            path:"lessonIds",
+            module:Lesson
+        }
     }).lean();
 
     return replaceMongoIdInObject(course);

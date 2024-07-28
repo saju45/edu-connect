@@ -1,5 +1,7 @@
+import { CourseProgress } from "@/components/course-progress";
 import { Badge } from "@/components/ui/badge";
 import { getCategoryDetails } from "@/queries/categories";
+import { getCourseDeatails } from "@/queries/courses";
 import { getAReport } from "@/queries/reports";
 import { BookOpen } from "lucide-react";
 import Image from "next/image";;
@@ -7,24 +9,31 @@ import Image from "next/image";;
 
 async function EnrollCourseCard({enrollment}){
 
+
     const category=await getCategoryDetails(enrollment?.course?.category);
     const filter={course:enrollment?.course?._id,student:enrollment?.student};
   
     console.log("filter : ",filter);
     const report=await getAReport(filter);
 	
+
+	const courseDetails=await getCourseDeatails(enrollment?.course?._id);
+	const totalModules=courseDetails?.modules?.length;
+
 	//total modules
-	const totalCompletedModules=report?.totalCompletedModeules?.length;
+	const totalCompletedModules=report?.totalCompletedModeules? report?.totalCompletedModeules?.length:0;
 	
+	const totalProgress=totalModules?(totalCompletedModules/totalModules)*100:0;
+
 	//get all quizzes and assessments
 	const quizes=report?.quizAssessment?.assessments
-	const totalQuiz=quizes?.length;
+	const totalQuiz=quizes?.length??0;
 
 	//find attemped quizzes
-	const quizzesTaken=quizes.filter(q=>q.attempted)
+	const quizzesTaken=quizes?quizes.filter(q=>q.attempted):[];
 
 	//find how many quizes answer correct
-	const totalCorrect= quizzesTaken.map((quiz)=>{
+	const totalCorrect= quizzesTaken?.map((quiz)=>{
 		const item=quiz?.options;
 
 		return item.filter(o=>{
@@ -33,9 +42,9 @@ async function EnrollCourseCard({enrollment}){
 	}).filter((element)=>element.length>0).flat();
 
 
-	const marksFormQuizzes=totalCorrect?.length*5;
+	const marksFormQuizzes=totalCorrect?totalCorrect?.length*5:0;
 
-	const otherMarks=report?.quizAssessment?.otherMarks;
+	const otherMarks=report?.quizAssessment?.otherMarks??0;
 	const totalMarks=(marksFormQuizzes +otherMarks);
 	console.log("totalCorrect : ",totalCorrect);
     return (
@@ -108,11 +117,10 @@ async function EnrollCourseCard({enrollment}){
 						</p>
 					</div>
 
-					{/*<CourseProgress
+					<CourseProgress
 						size="sm"
-						value={80}
-						variant={110 === 100 ? "success" : ""}
-	/>*/}
+						value={totalProgress}
+						variant={110 === 100 ? "success" : ""}/>
 				</div>
 			</div>
     )

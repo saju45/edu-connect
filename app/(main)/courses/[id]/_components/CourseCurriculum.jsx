@@ -18,7 +18,20 @@ import { cn } from "@/lib/utils";
 import CourseModuleList from "./module/CourseModuleList";
 
 function CourseCurriculum({course}) {
-  const totalDuration = course?.modules.reduce(function (acc, obj) { return acc + obj.duration; }, 0);
+
+  console.log("CourseCurriculum : ",course);
+  // const totalDuration = course?.modules.reduce(function (acc, obj) { return acc + obj.duration; }, 0);
+  
+  const totalDuration = course?.modules.map((item) => {
+    return item.lessonIds.reduce(function (acc, obj) {
+      return acc + obj.duration;
+    }, 0);
+  }).reduce(function (acc, obj) {
+      return acc + obj;
+    }, 0);
+
+    console.log({totalDuration});
+
 
   return (
     <>
