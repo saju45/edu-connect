@@ -103,7 +103,7 @@ console.log(enrolled);
             <Link href="/courses">Browse Courses</Link>
           </Button>
           <Button asChild variant="outline" size="sm">
-            <Link href="/think-in-a-redux-way/introduction">Play Course</Link>
+            <Link href={`/courses/${courseId}/lesson`}>Play Course</Link>
           </Button>
         </div>
       </div>

@@ -114,7 +114,7 @@ export function MainNav({ items, children }) {
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end" className="w-56 mt-4">
 						<DropdownMenuItem className="cursor-pointer" asChild>
-							<Link href="account">Profile</Link>
+							<Link href="/account">Profile</Link>
 						</DropdownMenuItem>
 						{
 							loggedInUser?.role==="instructor" && (
