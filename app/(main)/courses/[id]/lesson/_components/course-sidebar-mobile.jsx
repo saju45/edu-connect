@@ -3,7 +3,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { CourseSidebar } from "./course-sidebar";
 
-export const CourseSidebarMobile = () => {
+export const CourseSidebarMobile = ({courseId}) => {
   return (
     <Sheet>
       <SheetTrigger className="lg:hidden pr-4 hover:opacity-75 transition">
