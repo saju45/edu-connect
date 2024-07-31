@@ -6,37 +6,20 @@ import { SidebarModules } from "./sidebar-modules";
 import { getCourseDeatails } from "@/queries/courses";
 import { Watch } from "@/model/watch-model";
 import { getLoggedInUser } from "@/lib/loggedin-user";
+import { getAReport } from "@/queries/reports";
 
 export const CourseSidebar = async({courseId}) => {
 
   const loggedInUser=await getLoggedInUser();
-
   const course=await getCourseDeatails(courseId);
 
-
-  // const updatedModules=await Promise.all(course?.modules?.map(async(module)=>{
-    
-  //   const moduleId=module?._id.toString();
-  //   const lesssons=module?.lessonIds;
-
-  //   const updatedLessons=await Promise.all(lesssons.map(async(lesson)=>{
-
-  //     const lessonId=lesson?._id.toString();
-  //     const watch=await Watch.findOne({lesson:lessonId,module:moduleId,user:loggedInUser?.id})
-
-  //     if(watch?.state==="completed"){
-  //       console.log(`This lesson ${lesson.title} has completed`);
-  //       lesson.state="completed"
-  //     }
-
-  //     return lesson;
-  //   }))
-
-  //   return module;
-
-  // }))
-
+  const report=await getAReport({course:courseId,student:loggedInUser?.id})
   
+  const totalCompletedModules=report.totalCompletedModeules?report.totalCompletedModeules?.length:0;
+  const totalModules=course?.modules?course?.modules.length:0;
+  const totalProgress = (totalModules > 0) ? (totalCompletedModules/totalModules) * 100 : 0
+
+
   const updatedModules = await Promise.all(course?.modules.map(async(module) => {
     const moduleId = module._id.toString();
     const lessons = module?.lessonIds;
@@ -63,7 +46,7 @@ export const CourseSidebar = async({courseId}) => {
           {/* Check purchase */}
           {
             <div className="mt-10">
-              <CourseProgress variant="success" value={80} />
+              <CourseProgress variant="success" value={totalProgress} />
             </div>
           }
         </div>
