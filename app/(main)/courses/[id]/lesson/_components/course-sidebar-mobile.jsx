@@ -10,7 +10,7 @@ export const CourseSidebarMobile = ({courseId}) => {
         <Menu />
       </SheetTrigger>
       <SheetContent side="left" className="p-0 bg-white w-72">
-        <CourseSidebar />
+        <CourseSidebar courseId={courseId}/>
       </SheetContent>
     </Sheet>
   );

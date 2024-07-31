@@ -14,27 +14,44 @@ export const CourseSidebar = async({courseId}) => {
   const course=await getCourseDeatails(courseId);
 
 
-  const updatedModules=await Promise.all(course?.modules?.map(async(module)=>{
+  // const updatedModules=await Promise.all(course?.modules?.map(async(module)=>{
     
-    const moduleId=module?._id.toString();
-    const lesssons=module?.lessonIds;
+  //   const moduleId=module?._id.toString();
+  //   const lesssons=module?.lessonIds;
 
-    const updatedLessons=await Promise.all(lesssons.map(async(lesson)=>{
+  //   const updatedLessons=await Promise.all(lesssons.map(async(lesson)=>{
 
-      const lessonId=lesson?._id.toString();
-      const watch=await Watch.findOne({lesson:lessonId,module:moduleId,user:loggedInUser?.id})
+  //     const lessonId=lesson?._id.toString();
+  //     const watch=await Watch.findOne({lesson:lessonId,module:moduleId,user:loggedInUser?.id})
 
-      if(watch?.state==="completed"){
+  //     if(watch?.state==="completed"){
+  //       console.log(`This lesson ${lesson.title} has completed`);
+  //       lesson.state="completed"
+  //     }
+
+  //     return lesson;
+  //   }))
+
+  //   return module;
+
+  // }))
+
+  
+  const updatedModules = await Promise.all(course?.modules.map(async(module) => {
+    const moduleId = module._id.toString();
+    const lessons = module?.lessonIds;
+
+    const updatedLessons = await Promise.all(lessons.map(async (lesson) => {
+      const lessonId = lesson._id.toString();
+      const watch = await Watch.findOne({lesson: lessonId, module: moduleId, user: loggedInUser.id}).lean();
+      if (watch?.state === 'completed') {
         console.log(`This lesson ${lesson.title} has completed`);
-        lesson.state="completed"
+        lesson.state = 'completed';
       }
-
       return lesson;
     }))
-
     return module;
-
-  }))
+  }));
 
   console.log({updatedModules});
 
