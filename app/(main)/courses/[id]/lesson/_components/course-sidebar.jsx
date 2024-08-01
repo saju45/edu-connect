@@ -15,7 +15,7 @@ export const CourseSidebar = async({courseId}) => {
 
   const report=await getAReport({course:courseId,student:loggedInUser?.id})
   
-  const totalCompletedModules=report.totalCompletedModeules?report.totalCompletedModeules?.length:0;
+  const totalCompletedModules=report?.totalCompletedModeules?report.totalCompletedModeules?.length:0;
   const totalModules=course?.modules?course?.modules.length:0;
   const totalProgress = (totalModules > 0) ? (totalCompletedModules/totalModules) * 100 : 0
 
@@ -52,7 +52,7 @@ export const CourseSidebar = async({courseId}) => {
         </div>
         <SidebarModules courseId={courseId} modules={updatedModules}/>
         <div className="w-full px-6">
-          <Downloadcertificate/>
+          <Downloadcertificate courseId={courseId} totalProgress={totalProgress}/>
           <GiveReview/>
         </div>
       </div>
